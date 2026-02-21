@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "backend": "npm run start --prefix backend",
+    "frontend": "npm run dev --prefix frontend/Draftly",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
     "build": "npm install --prefix backend && npm install --prefix frontend/Draftly && npm run build --prefix frontend/Draftly",
     "start": "npm run start --prefix backend"
   },
@@ -18,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/iamamit-16/Draftly/issues"
   },
-  "homepage": "https://github.com/iamamit-16/Draftly#readme"
+  "homepage": "https://github.com/iamamit-16/Draftly#readme",
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  }
 }
