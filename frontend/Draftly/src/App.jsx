@@ -7,7 +7,7 @@ import { Toaster } from 'react-hot-toast'
 function App() {
   return (
     <div className="relative h-full w-full">
-      <div class="absolute inset-0 -z-10 h-full w-full items-center px-5 py-24 
+      <div className="absolute inset-0 -z-10 h-full w-full items-center px-5 py-24 
       [background:radial-gradient(125%_125%_at_50%_10%,#000_60%,#3b82f6_100%)]"/>
     <Toaster position="top-right" />
     

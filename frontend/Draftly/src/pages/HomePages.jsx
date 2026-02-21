@@ -1,26 +1,21 @@
-import React, { useEffect, useState } from 'react'
-import { Navbar } from '../component/Navbar'
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchNotes } from '../redux/noteSlice'; 
 import { NoteCard } from '../component/NoteCard'
+import { useEffect } from 'react';
+import {Navbar} from "../component/Navbar"
 import api from '../axios'
 
 function HomePages() {
-  const [notes, setNotes] = useState([])
-  const [loading, setLoading] = useState(true)
+  const dispatch = useDispatch()
+  
+  const { items: notes, loading, error } = useSelector((state) => state.notes);
 
-  useEffect(() => {
-    const fetchNotes = async () => {
-      try {
-        const res = await api.get("/notes")
-        console.log(res.data);
-        setNotes(res.data);
-      } catch (error) {
-        console.error("Error Fetching Data", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchNotes();
-  }, [])
+ useEffect(() => {
+    // Trigger the Redux Thunk to fetch data
+    if (notes.length === 0) {
+    dispatch(fetchNotes());
+  }
+}, [dispatch, notes.length]);
 
   return (
     <div className='min-h-screen text-white'>

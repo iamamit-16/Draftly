@@ -1,32 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router";
-import api from "../axios"; 
+import { useDispatch,useSelector } from "react-redux";
 import { ArrowLeftIcon, TrashIcon } from "lucide-react";
 import toast from "react-hot-toast";
+import { fetchNotes,updateNote, deleteNote } from "../redux/noteSlice";
 
 const NoteDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { items: notes, loading: reduxLoading } = useSelector((state) => state.notes);
+
+  const note = notes.find((n) => n._id === id);
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false); 
-  const [pageLoading, setPageLoading] = useState(true); 
 
   useEffect(() => {
-    const fetchNote = async () => {
-      try {
-        const res = await api.get(`/notes/${id}`);
-        setTitle(res.data.title);
-        setContent(res.data.content);
-      } catch (error) {
-        toast.error("Failed to load note");
-      } finally {
-        setPageLoading(false);
-      }
-    };
-    fetchNote();
-  }, [id]);
+    if (notes.length === 0) {
+      dispatch(fetchNotes());
+    }
+  }, [dispatch, notes.length]);
+
+  useEffect(() => {
+    if (note) {
+      setTitle(note.title);
+      setContent(note.content);
+    }
+  }, [note]);
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -36,11 +39,11 @@ const NoteDetailPage = () => {
     }
     setLoading(true);
     try {
-      await api.put(`/notes/${id}`, { title, content });
+      await dispatch(updateNote({ id, noteData: { title, content } })).unwrap();
       toast.success("Note updated successfully");
       navigate("/");
     } catch (error) {
-      toast.error("Failed to update note");
+      toast.error(error || "Failed to update note");
     } finally {
       setLoading(false);
     }
@@ -48,14 +51,17 @@ const NoteDetailPage = () => {
 
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this note?")) return;
-    try {
-      await api.delete(`/notes/${id}`);
+   try {
+      // 5. Dispatch the delete thunk
+      await dispatch(deleteNote(id)).unwrap();
       toast.success("Note deleted successfully");
       navigate("/");
     } catch (error) {
-      toast.error("Failed to delete note");
+      toast.error(error || "Failed to delete note");
     }
   };
+
+  const pageLoading = reduxLoading && notes.length === 0;
 
   return (
     <div className="min-h-screen text-white"> 

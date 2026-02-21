@@ -3,13 +3,18 @@ import React from 'react'
 import { useState } from 'react'
 import { Link, useNavigate } from "react-router"
 import toast from "react-hot-toast"
-import api from '../axios'
+import { useDispatch,useSelector } from 'react-redux'
+import { createNote } from '../redux/noteSlice'
 
 const CreatePage = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const { loading: reduxLoading } = useSelector((state) => state.notes)
+
     const [title, setTitile] = useState("")
     const [content, setContent] = useState("")
     const [loading, setLoading] = useState(false)
-    const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,10 +26,7 @@ const CreatePage = () => {
 
         setLoading(true)
         try {
-            await api.post("/notes", {
-                title,
-                content
-            })
+            await dispatch(createNote({title,content})).unwrap()
             toast.success("Note Created Successfully")
             navigate("/")
         } catch (error) {
@@ -80,7 +82,7 @@ const CreatePage = () => {
                                         className='btn btn-primary px-8' 
                                         disabled={loading}
                                     >
-                                        {loading ? (
+                                       {(loading || reduxLoading) ? (
                                             <>
                                                 <span className="loading loading-spinner loading-sm"></span>
                                                 Creating...
