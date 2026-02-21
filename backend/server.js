@@ -6,12 +6,14 @@ import dotenv from "dotenv"
 import cors from "cors"
 import path from "path"
 
+
+dotenv.config();
+
 const app = express();
 const PORT =process.env.PORT||5001
 const __dirname = path.resolve() // backend source
 
 
-dotenv.config();
 app.use(express.json());
 
 
@@ -32,17 +34,16 @@ app.use("/api/notes",notesRoutes);
 if (process.env.NODE_ENV=="production"){
     app.use(express.static(path.join(__dirname,"../frontend/Draftly/dist")));
 
-    app.get("/",(req,res)=>{
+    app.get("*",(req,res)=>{
     res.sendFile(path.join(__dirname,"../frontend/Draftly","dist","index.html"))
 })
 }
 
 
 connectDB().then(()=>{
-
-app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+app.listen(PORT,()=>{
+    console.log("server started",PORT)
+})
 })
 
 
