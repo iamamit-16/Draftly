@@ -9,7 +9,7 @@ function HomePages() {
   useEffect(()=>{
     const fetchNotes = async()=>{
       try {
-          const res = await api.get("http://localhost:5001/api/notes")
+          const res = await api.get("/notes")
           console.log(res.data);
           setNotes(res.data);
       } catch (error) {

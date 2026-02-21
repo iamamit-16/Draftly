@@ -42,7 +42,7 @@ const NoteDetailPage = () => {
     setLoading(true);
 
     try {
-      await axios.put(`http://localhost:5001/api/notes/${id}`, {
+      await axios.put(`/notes/${id}`, {
         title,
         content,
       });
@@ -62,7 +62,7 @@ const NoteDetailPage = () => {
 
     try {
       await axios.delete(
-        `http://localhost:5001/api/notes/${id}`
+        `/notes/${id}`
       );
       toast.success("Note deleted successfully");
       navigate("/");
