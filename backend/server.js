@@ -35,7 +35,8 @@ if (process.env.NODE_ENV === "production") {
     
     app.use(express.static(distPath));
 
-    app.get("/:any(.*)", (req, res) => {
+    // This specific syntax is required for Express 5.2.1 catch-all routes
+    app.get("/{*splat}", (req, res) => {
         res.sendFile(path.join(distPath, "index.html"));
     });
 }
