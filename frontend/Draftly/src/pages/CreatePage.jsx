@@ -35,19 +35,16 @@ const CreatePage = () => {
     }
 
     return (
-        /* Removed bg-base-200 to show App.jsx background */
         <div className='min-h-screen text-white'>
             <div className='container mx-auto px-4 py-8'>
                 <div className='max-w-2xl mx-auto'>
                     
-                    {/* Consistent Back Button */}
                     <Link to="/" className="btn btn-ghost mb-6 text-white hover:bg-white/10">
                         <ArrowLeftIcon className='size-5 mr-2' />
                         Back To Notes
                     </Link>
 
-                    {/* Glassmorphism Card */}
-                    <div className='card bg-base-100/50 backdrop-blur-sm border border-white/10 shadow-2xl'>
+                        <div className='card bg-base-100/50 backdrop-blur-sm border border-white/10 shadow-2xl'>
                         <div className='card-body'>
                             <h2 className='card-title text-2xl mb-6 text-white'>Create New Note</h2>
                             

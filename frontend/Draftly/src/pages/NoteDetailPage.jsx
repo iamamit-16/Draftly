@@ -58,18 +58,15 @@ const NoteDetailPage = () => {
   };
 
   return (
-    // Removed 'bg-base-200' so the App.jsx radial gradient shows through
     <div className="min-h-screen text-white"> 
       <div className="container mx-auto px-4 py-8 max-w-2xl">
         
-        {/* Header: Always visible so user can go back even while loading */}
         <div className="flex justify-between items-center mb-8">
           <Link to="/" className="btn btn-ghost text-white hover:bg-white/10">
             <ArrowLeftIcon className="size-5 mr-2" />
             Back
           </Link>
           
-          {/* Only show delete if not loading to prevent errors */}
           {!pageLoading && (
             <button onClick={handleDelete} className="btn btn-ghost text-error hover:bg-error/10">
               <TrashIcon className="size-5 mr-2" />
@@ -79,13 +76,11 @@ const NoteDetailPage = () => {
         </div>
 
         {pageLoading ? (
-          /* Homepage style loading state */
           <div className="flex flex-col items-center justify-center py-20">
             <span className="loading loading-spinner loading-lg text-primary"></span>
             <p className="mt-4 text-gray-400">Fetching your note...</p>
           </div>
         ) : (
-          /* Content Card with slight glass effect to match the dark theme */
           <div className="card bg-base-100/50 backdrop-blur-sm border border-white/10 shadow-2xl">
             <div className="card-body">
               <form onSubmit={handleUpdate}>
