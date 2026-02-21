@@ -39,9 +39,10 @@ if (process.env.NODE_ENV=="production"){
 
 
 connectDB().then(()=>{
-app.listen(PORT,()=>{
-    console.log("server started",PORT)
-})
+
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server is running on port ${PORT}`);
+});
 })
 
 
