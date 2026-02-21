@@ -31,12 +31,13 @@ app.use("/api/notes",notesRoutes);
 
 
 
-if (process.env.NODE_ENV=="production"){
-    app.use(express.static(path.join(__dirname,"../frontend/Draftly/dist")));
+if (process.env.NODE_ENV === "production") {
+    // Ensure this path points exactly to where your Vite build is
+    app.use(express.static(path.join(__dirname, "frontend", "Draftly", "dist")));
 
-    app.get("*",(req,res)=>{
-    res.sendFile(path.join(__dirname,"../frontend/Draftly","dist","index.html"))
-})
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "frontend", "Draftly", "dist", "index.html"));
+    });
 }
 
 
