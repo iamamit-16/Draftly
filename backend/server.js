@@ -30,7 +30,6 @@ app.use(express.json());//this middleware will parse json body:req.body
 app.use("/api/notes",notesRoutes);
 
 
-
 if (process.env.NODE_ENV === "production") {
     const distPath = path.join(__dirname, "../frontend/Draftly/dist");
     
