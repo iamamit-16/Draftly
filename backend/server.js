@@ -31,12 +31,14 @@ app.use("/api/notes",notesRoutes);
 
 
 
-if (process.env.NODE_ENV=="production"){
-    app.use(express.static(path.join(__dirname,"../frontend/Draftly/dist")));
+if (process.env.NODE_ENV === "production") {
+    const distPath = path.join(__dirname, "../frontend/Draftly/dist");
+    
+    app.use(express.static(distPath));
 
-    app.get("/*",(req,res)=>{
-    res.sendFile(path.join(__dirname,"../frontend/Draftly","dist","index.html"))
-})
+    app.get("/:slug*", (req, res) => {
+        res.sendFile(path.resolve(distPath, "index.html"));
+    });
 }
 
 
