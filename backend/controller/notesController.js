@@ -2,7 +2,7 @@ import Note from "../model/Note.js";
 
 export async function getAllNotes(req,res){
     try{
-    const notes = await Note.find().sort({createdAt:-1});//newest one
+    const notes = await Note.find({ user: req.user._id }).sort({createdAt:-1});//newest one
     console.log("Notes found:", notes);
     res.status(200).json(notes)
     }
@@ -15,8 +15,8 @@ export async function getAllNotes(req,res){
 
 export async function getNotesById(req,res){
     try {
-        const getNotesById = await Note.findById(req.params.id);
-        if (!getNotesById)return res.status(404).json({message:"Note Not Found"});
+    const notes = await Note.find({ _id: req.params.id, user: req.user._id});        
+    if (!getNotesById)return res.status(404).json({message:"Note Not Found"});
         res.json(getNotesById);
     } catch (error) {
         console.error("Error in Geting Note By ID",error);
@@ -27,10 +27,9 @@ export async function getNotesById(req,res){
 export async function createNote(req,res){
     try {
         const {title,content}=req.body;
-        const newNote= new Note({title,content});
-        await newNote.save();
-        res.status(201).json({message:"Notes sucessfully Created"});
-
+        const newNote= new Note({title,content,user: req.user._id});
+        const savedNote = await newNote.save();
+        res.status(201).json(savedNote);
     } catch (error) {
         console.error("Error in createNotes controller",error);
         res.status(500).json({message:"Internal server error"});

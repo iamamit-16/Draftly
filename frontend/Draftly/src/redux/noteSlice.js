@@ -4,6 +4,7 @@ import api from "../axios";
 export const fetchNotes = createAsyncThunk('notes/fetchNotes', async(_,thunkAPI)=>{
     try {
     const response = await api.get('/notes')
+    console.log("API Response:", response.data);
     return response.data;
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response?.data?.message|| "failed to fetch");
@@ -15,6 +16,7 @@ export const fetchNotes = createAsyncThunk('notes/fetchNotes', async(_,thunkAPI)
 export const createNote = createAsyncThunk('notes/addNote',async (noteData,thunkAPI)=>{
     try {
         const response =await api.post('/notes',noteData);
+        console.log("Create Response:", response.data);
         return response.data;
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response?.data?.message|| "failed to post");
@@ -66,6 +68,8 @@ const noteSlice = createSlice({
       })
 
       .addCase(createNote.fulfilled, (state, action) => {
+        console.log("What is being added to Redux?", action.payload);
+        state.loading = false;
         state.items.push(action.payload);
       })
       .addCase(updateNote.fulfilled, (state, action) => {
@@ -74,7 +78,17 @@ const noteSlice = createSlice({
       })
       .addCase(deleteNote.fulfilled, (state, action) => {
         state.items = state.items.filter((n) => n._id !== action.payload);
-      });    
+      })
+
+      .addCase("auth/login/fulfilled", (state) => {
+        state.items = []; 
+      })
+      .addCase("auth/register/fulfilled", (state) => {
+        state.items = []; 
+      })
+      .addCase("auth/logout", (state) => {
+        state.items = []; 
+      });
     }
 })
 
