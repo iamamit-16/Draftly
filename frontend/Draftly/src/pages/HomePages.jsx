@@ -11,7 +11,6 @@ function HomePages() {
   const { items: notes, loading, error } = useSelector((state) => state.notes);
 
  useEffect(() => {
-    // Trigger the Redux Thunk to fetch data
     if (notes.length === 0) {
     dispatch(fetchNotes());
   }

@@ -1,8 +1,8 @@
 import React from 'react';
 import { PlusIcon, LogOutIcon, UserIcon } from "lucide-react";
-import { Link, useNavigate } from "react-router"; // Use useNavigate for redirection
+import { Link, useNavigate } from "react-router"; 
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../redux/authSlice'; // Import your logout action
+import { logout } from '../redux/authSlice'; 
 import toast from 'react-hot-toast';
 
 export const Navbar = () => {
@@ -39,7 +39,7 @@ export const Navbar = () => {
                   </div>
                 </div>
                 <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-300 rounded-box w-52 border border-white/5">
-                  <li className="px-4 py-2 text-xs opacity-60 truncate">{user.email}</li>
+                  <li className="px-4 py-2 text-sm opacity-60 truncate">{user.email}</li>
                   <li>
                     <button onClick={handleLogout} className="text-error flex items-center gap-2">
                       <LogOutIcon size={16} />

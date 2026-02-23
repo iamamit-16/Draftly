@@ -4,16 +4,21 @@ import { PenSquareIcon, TrashIcon } from 'lucide-react'
 import  {formatDate } from './utils'
 import api from "../axios"
 import toast from "react-hot-toast"
+import { useDispatch } from 'react-redux'
+import { deleteNote } from '../redux/noteSlice';
 export const NoteCard = ({note}) => {
+    const dispatch = useDispatch();
 
     const handleDelete  = async(e,id)=>{
         e.preventDefault();
+        e.stopPropagation(); 
 
         if (!window.confirm("Are you sure you want to delete this note ")) return;
 
         try {
-            await api.delete(`/notes/${id}`)
+            await dispatch(deleteNote(id)).unwrap();
             toast.success("Note Clear Sucessfully")
+            
         } catch (error) {
             console.log("Error in handleDelete",error);
             toast.error("Failed to delete note")
